@@ -12,21 +12,34 @@ def find_chrome():
     except WindowsError:
         return None
 
+app_map = {
+    "notepad": ["notepad.exe"],
+    "calculator": ["calc.exe"],
+    "paint": ["mspaint.exe"],
+    "chrome": find_chrome()
+}
+
 print("Welcome to Application Runner!")
+print("Available applications:")
+print("1. Notepad")
+print("2. Calculator")
+print("3. Paint")
+print("4. Chrome")
 
-question = input("Ask me to open an application: ")
-
-if "notepad" in question:
-    subprocess.Popen(["notepad.exe"])
-elif "calculator" in question:
-    subprocess.Popen(["calc.exe"])
-elif "paint" in question:
-    subprocess.Popen(["mspaint.exe"])
-elif "chrome" in question:
-    chrome_path = find_chrome()
-    if chrome_path:
-        subprocess.Popen([chrome_path])
+while True:
+    app = input("Enter the name or question of the application you want to run: ")
+    app = app.lower()
+    
+    if "notepad" in app:
+        subprocess.Popen(app_map["notepad"])
+    elif "calculator" in app or "calc" in app:
+        subprocess.Popen(app_map["calculator"])
+    elif "paint" in app:
+        subprocess.Popen(app_map["paint"])
+    elif "chrome" in app or "browser" in app:
+        if app_map["chrome"]:
+            subprocess.Popen(app_map["chrome"])
+        else:
+            print("Google Chrome not found.")
     else:
-        print("Google Chrome not found.")
-else:
-    print("I am sorry, I could not find the application you requested.")
+        print("Application not found. Please try again.")
