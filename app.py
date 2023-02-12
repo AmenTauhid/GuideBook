@@ -5,8 +5,15 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 
-# paint_button = tk.Button(root, text="Paint", command=lambda: run_app("paint"))
-# paint_button.pack()
+def find_chrome():
+    try:
+        reg = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
+        key = winreg.OpenKey(reg, r"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe")
+        path = winreg.QueryValue(key, None)
+        winreg.CloseKey(key)
+        return path
+    except WindowsError:
+        return None
 
 app_map = {
     "notepad": ["notepad.exe"],
