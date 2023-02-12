@@ -1,5 +1,5 @@
 import subprocess
-import speech_recognition
+from modules import speech_recognition
 from app import mainApp
 
 
