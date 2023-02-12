@@ -1,6 +1,7 @@
 import subprocess
 import winreg
 import platform
+import speech_recognition
 import os
 import tkinter as tk
 from tkinter import messagebox
@@ -36,6 +37,18 @@ def run_app(app_name):
     else:
         messagebox.showerror("Error", f"{app_name.capitalize()} not found.")
 
+
+def voice_recognizing():
+    recognizer = speech_recognition.Recognizer()
+    with speech_recognition.Microphone() as mic:
+        recognizer.adjust_for_ambient_noise(mic,duration=0.1)
+        audio = recognizer.listen(mic)
+    try:
+        text = recognizer.recognize_google(audio).lower()
+        return text
+    except speech_recognition.UnknownValueError:
+        return ""
+
 root = tk.Tk()
 root.geometry("200x200")
 root.title("Application Runner")
@@ -63,4 +76,44 @@ calendar_button.pack()
 
 camera_button = tk.Button(root, text="Camera", command=lambda: run_app("camera"))
 camera_button.pack()
-root.mainloop()
+
+def find_app_by_voice(app_input):
+    if "notepad" in app_input:
+        subprocess.Popen(app_map["notepad"])
+    elif "calculator" in app_input or "calc" in app_input:
+        subprocess.Popen(app_map["calculator"])
+    elif "paint" in app_input:
+        subprocess.Popen(app_map["paint"])
+    elif "chrome" in app_input or "browser" in app_input:
+        if app_map["chrome"]:
+            subprocess.Popen(app_map["chrome"])
+        else:
+            print("Google Chrome not found.")
+    # elif "exit" in app_input:
+    #     os._exit(0)
+    else:
+        print("Application not found. Please try again.")
+
+def main():
+    print("Welcome to Application Runner!\n")
+    input_choice = input("Please Choose if you like to input using a keyboard or the Microphone.\n1. Keyboard\n2. Microphone\n")
+
+    while True:
+        if input_choice == "1":
+            print("Available applications:")
+            print("1. Notepad")
+            print("2. Calculator")
+            print("3. Paint")
+            print("4. Chrome")
+            print("5. Exit")
+            root.mainloop()
+        elif input_choice == "2":
+            print("Available applications:")
+            print("1. Notepad")
+            print("2. Calculator")
+            print("3. Paint")
+            print("4. Chrome")
+            print("5. Exit")
+            app_input = voice_recognizing()
+            find_app_by_voice(app_input)
+main()
