@@ -49,7 +49,7 @@ class testUiClass:
                 print("4. Chrome")
                 print("5. Exit")
                 # app_input = input("Enter the name or question of the application you want to run: ").lower()
-                testUi.tinkerUiFunc()
+                testUiClass.tinkerUiFunc()
                 break
             elif input_choice == "2":
                 print("Available applications:")
