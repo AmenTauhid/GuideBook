@@ -77,6 +77,10 @@ calendar_button.pack()
 camera_button = tk.Button(root, text="Camera", command=lambda: run_app("camera"))
 camera_button.pack()
 
+exit_button = tk.Button(root, text="Exit", command=root.quit)
+exit_button.pack()
+
+
 def find_app_by_voice(app_input):
     if "notepad" in app_input:
         subprocess.Popen(app_map["notepad"])
@@ -89,10 +93,11 @@ def find_app_by_voice(app_input):
             subprocess.Popen(app_map["chrome"])
         else:
             print("Google Chrome not found.")
-    # elif "exit" in app_input:
-    #     os._exit(0)
+    elif "exit" or "close" in app_input:
+        root.quit()
     else:
         print("Application not found. Please try again.")
+
 
 def main():
     print("Welcome to Application Runner!\n")
@@ -107,6 +112,7 @@ def main():
             print("4. Chrome")
             print("5. Exit")
             root.mainloop()
+            break
         elif input_choice == "2":
             print("Available applications:")
             print("1. Notepad")
